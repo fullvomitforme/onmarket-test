@@ -21,7 +21,7 @@ Download and install
 
 #### **Clone the repository:**
 
-    git clone https://github.com/charlyautomatiza/starter-playwright.git
+    git clone https://github.com/fullvomitforme/onmarket-test.git
 
 #### **Install dependencies.**
 
