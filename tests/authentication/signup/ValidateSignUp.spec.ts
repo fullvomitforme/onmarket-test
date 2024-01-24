@@ -12,15 +12,14 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 		const signUpPage = new SignUp(page);
 
 		const email = 'tazkiyadigitalarchive@gmail.com';
-		const phoneNumber = '081381977551';
+		const phoneNumber = '082310575660';
 		const username = 'tzkymjhd';
 		const firstName = 'Tazkiya';
 		const lastName = 'Mujahid';
 		const password = 'tzkymjhd';
-
-		await expect(page).toHaveTitle(
-			'ONMARKET - Platform Jual Beli Online Terpercaya',
-		);
+		// await expect(page).toHaveTitle(
+		// 	'ONMARKET - Platform Jual Beli Online Terpercaya',
+		// );
 
 		await signUpPage.signUp(
 			email,
@@ -30,6 +29,15 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			lastName,
 			password,
 		);
+
+		await page.waitForTimeout(10000);
+
+		// await expect(page).toHaveURL('https://test.onmarket.id/signup/otp');
+		await signUpPage.setOtp('126545');
+
+		const successModal = await page.getByLabel('Success');
+
+		await expect(successModal).toBeVisible();
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] [empty_email, phone_number, username, first_name, last_name, password] successfully', async ({
@@ -38,7 +46,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 		const signUpPage = new SignUp(page);
 
 		const email = '';
-		const phoneNumber = '081381977551';
+		const phoneNumber = '082310575660';
 		const username = 'tzkymjhd';
 		const firstName = 'Tazkiya';
 		const lastName = 'Mujahid';
@@ -48,7 +56,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			'ONMARKET - Platform Jual Beli Online Terpercaya',
 		);
 
-		await signUpPage.signUp(
+		await signUpPage.signUpWithEmptyValue(
 			email,
 			phoneNumber,
 			username,
@@ -58,6 +66,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 		);
 
 		await expect(page.getByText('Email is required.')).toBeVisible();
+		await expect(signUpPage.signUpButton).toBeDisabled();
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] email, empty_phone_number, username, first_name, last_name, password] successfully', async ({
@@ -76,7 +85,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			'ONMARKET - Platform Jual Beli Online Terpercaya',
 		);
 
-		await signUpPage.signUp(
+		await signUpPage.signUpWithEmptyValue(
 			email,
 			phoneNumber,
 			username,
@@ -84,6 +93,8 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			lastName,
 			password,
 		);
+
+		await expect(signUpPage.signUpButton).toBeDisabled();
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] email, phone_number, empty_username, first_name, last_name, password] successfully', async ({
@@ -102,7 +113,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			'ONMARKET - Platform Jual Beli Online Terpercaya',
 		);
 
-		await signUpPage.signUp(
+		await signUpPage.signUpWithEmptyValue(
 			email,
 			phoneNumber,
 			username,
@@ -110,6 +121,8 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			lastName,
 			password,
 		);
+
+		await expect(signUpPage.signUpButton).toBeDisabled();
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] email, phone_number, username, empty_first_name, last_name, password] successfully', async ({
@@ -128,7 +141,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			'ONMARKET - Platform Jual Beli Online Terpercaya',
 		);
 
-		await signUpPage.signUp(
+		await signUpPage.signUpWithEmptyValue(
 			email,
 			phoneNumber,
 			username,
@@ -136,6 +149,8 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			lastName,
 			password,
 		);
+
+		await expect(signUpPage.signUpButton).toBeDisabled();
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] email, phone_number, username, first_name, empty_last_name, password] successfully', async ({
@@ -162,6 +177,8 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			lastName,
 			password,
 		);
+
+		await expect(signUpPage.signUpButton).toBeDisabled();
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] email, phone_number, username, first_name, last_name, empty_password] successfully', async ({
@@ -188,5 +205,7 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			lastName,
 			password,
 		);
+
+		await expect(signUpPage.signUpButton).toBeDisabled();
 	});
 });

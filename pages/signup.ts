@@ -11,6 +11,8 @@ export class SignUp {
 	readonly firstName: Locator;
 	readonly lastName: Locator;
 	readonly username: Locator;
+	readonly sendOtpButton: Locator;
+	readonly inputOtp: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
@@ -25,6 +27,8 @@ export class SignUp {
 		this.lastName = page.getByPlaceholder('Last Name');
 		this.password = page.getByPlaceholder('Password');
 		this.signUpButton = page.getByRole('button', { name: 'Sign Up' });
+		this.sendOtpButton = page.getByRole('button', { name: 'Kirim OTP' });
+		this.inputOtp = page.getByPlaceholder('Masukkan Kode OTP');
 	}
 
 	async goto() {
@@ -48,5 +52,29 @@ export class SignUp {
 		await this.lastName.fill(lastName);
 		await this.password.fill(password);
 		await this.signUpButton.click();
+	}
+
+	async signUpWithEmptyValue(
+		email: string,
+		phoneNumber: string,
+		username: string,
+		firstName: string,
+		lastName: string,
+		password: string,
+	) {
+		await this.signUporSignInButton.click();
+		await this.chooseSignUpButton.click();
+		await this.email.fill(email);
+		await this.phoneNumber.fill(phoneNumber);
+		await this.username.fill(username);
+		await this.firstName.fill(firstName);
+		await this.lastName.fill(lastName);
+		await this.password.fill(password);
+	}
+
+	async setOtp(otp: string) {
+		await this.inputOtp.fill(otp);
+		await this.page.waitForTimeout(10000);
+		await this.sendOtpButton.click();
 	}
 }
