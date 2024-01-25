@@ -1,27 +1,51 @@
 import { test, expect } from '@playwright/test';
-import { SignUp } from '@pages/signup';
+import { Login } from '../../../pages/login';
 
-test('User can Sign Up Successfully', async ({ page }) => {
-	const signUpPage = new SignUp(page);
+test.describe('[ONMARKET] Regression Test - Login user baru', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('https://test.onmarket.id/');
+	});
 
-	const email = 'tazkiyadigitalarchive@gmail.com';
-	const phoneNumber = '081381977551';
-	const username = 'tzkymjhd';
-	const firstName = 'Tazkiya';
-	const lastName = 'Mujahid';
-	const password = 'tzkymjhd';
+	test('Verify user can [Sign In] with [Valid Data Value] [username, password] successfully', async ({
+		page,
+	}) => {
+		const LoginPage = new Login(page);
 
-	await signUpPage.goto();
-	await expect(page).toHaveTitle(
-		'ONMARKET - Platform Jual Beli Online Terpercaya',
-	);
+		const username = 'tzkymjhd';
+		const password = 'tzkymjhd';
 
-	await signUpPage.signUp(
-		email,
-		phoneNumber,
-		username,
-		firstName,
-		lastName,
-		password,
-	);
+		await expect(page).toHaveTitle(
+			'ONMARKET - Platform Jual Beli Online Terpercaya',
+		);
+
+		await LoginPage.signIn(username, password);
+
+		const profilButton = page.getByRole('button', {
+			name: `person Welcome ${username}`,
+		});
+
+		await expect(profilButton).toBeVisible();
+
+		await profilButton.click();
+
+		const myProfilButton = page.getByRole('menuitem', {
+			name: 'contact_page My Profile',
+		});
+
+		await expect(myProfilButton).toBeVisible();
+
+		await myProfilButton.click();
+
+		await expect(page).toHaveURL(
+			'https://test.onmarket.id/user/profile/detail-profile',
+		);
+
+		await profilButton.click();
+
+		const logoutButton = page.getByRole('menuitem', { name: 'logout Logout' });
+
+		await expect(logoutButton).toBeVisible();
+
+		await logoutButton.click();
+	});
 });

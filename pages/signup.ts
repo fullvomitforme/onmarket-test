@@ -32,7 +32,7 @@ export class SignUp {
 	}
 
 	async goto() {
-		await this.page.goto('https://test.onmarket.id/');
+		await this.page.goto('/');
 	}
 
 	async signUp(
@@ -74,7 +74,7 @@ export class SignUp {
 
 	async setOtp(otp: string) {
 		await this.inputOtp.fill(otp);
-		await this.page.waitForTimeout(10000);
+		await this.page.waitForTimeout(60000);
 		await this.sendOtpButton.click();
 	}
-}
+}	

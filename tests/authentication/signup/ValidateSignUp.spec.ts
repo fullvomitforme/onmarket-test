@@ -17,9 +17,10 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 		const firstName = 'Tazkiya';
 		const lastName = 'Mujahid';
 		const password = 'tzkymjhd';
-		// await expect(page).toHaveTitle(
-		// 	'ONMARKET - Platform Jual Beli Online Terpercaya',
-		// );
+		const otp = '623620';
+		await expect(page).toHaveTitle(
+			'ONMARKET - Platform Jual Beli Online Terpercaya',
+		);
 
 		await signUpPage.signUp(
 			email,
@@ -30,14 +31,20 @@ test.describe('[ONMARKET] Regression Test - Daftar user baru', () => {
 			password,
 		);
 
-		await page.waitForTimeout(10000);
+		await expect(page).toHaveURL('https://test.onmarket.id/signup/otp');
 
-		// await expect(page).toHaveURL('https://test.onmarket.id/signup/otp');
-		await signUpPage.setOtp('126545');
+		await page.waitForTimeout(5000);
+		await signUpPage.setOtp(otp);
 
-		const successModal = await page.getByLabel('Success');
+		const successModal = page.getByLabel('Success');
+		const okButton = page.getByRole('button', { name: 'OK' });
 
 		await expect(successModal).toBeVisible();
+		await expect(okButton).toBeVisible();
+
+		await okButton.click();
+
+		await expect(page).toHaveURL('https://test.onmarket.id/');
 	});
 
 	test('Verify user cannot [Sign Up] with [Invalid Data Value] [empty_email, phone_number, username, first_name, last_name, password] successfully', async ({

@@ -1,25 +1,39 @@
 import { Locator, Page } from '@playwright/test';
 
 export class Login {
-  readonly page: Page;
-  readonly username: Locator;
-  readonly password: Locator;
-  readonly signIn: Locator;
+	readonly page: Page;
+	readonly signUporSignInButton: Locator;
+	readonly usernameField: Locator;
+	readonly passwordField: Locator;
+	readonly SignIn: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
-    this.username = page.locator('(//input[@id="outlined-name"])[1]');
-    this.password = page.locator('(//input[@id="outlined-name"])[2]');
-    this.signIn = page.locator('(//span[normalize-space()="SIGN IN"])[1]');
-  }
+	constructor(page: Page) {
+		this.page = page;
 
-  async goto() {
-    await this.page.goto('https://charlyautomatiza.github.io/task-management-frontend');
-  }
+		this.signUporSignInButton = page.getByRole('button', {
+			name: 'person Masuk/Daftar',
+		});
 
-  async sigIn(username:string, password:string) {
-    await this.username.type(username);
-    await this.password.type(password);
-    await this.signIn.click();
-  }
+		this.usernameField = page.getByRole('textbox', { name: 'Username' });
+
+		this.passwordField = page.getByPlaceholder('Password');
+
+		this.SignIn = page.getByRole('button', {
+			name: 'Sign In',
+		});
+	}
+
+	async goto() {
+		await this.page.goto('/');
+	}
+
+	async signIn(username: string, password: string) {
+		await this.signUporSignInButton.click();
+
+		await this.usernameField.fill(username);
+
+		await this.passwordField.fill(password);
+
+		await this.SignIn.click();
+	}
 }
