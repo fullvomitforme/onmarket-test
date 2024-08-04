@@ -6,6 +6,8 @@ export class Login {
 	readonly usernameField: Locator;
 	readonly passwordField: Locator;
 	readonly SignIn: Locator;
+	readonly rememberMeCheckbox: Locator;
+	readonly okButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
@@ -14,13 +16,17 @@ export class Login {
 			name: 'person Masuk/Daftar',
 		});
 
-		this.usernameField = page.getByRole('textbox', { name: 'Username' });
+		this.usernameField = page.getByRole('textbox', { name: 'Username/Email' });
 
-		this.passwordField = page.getByPlaceholder('Password');
+		this.passwordField = page.getByPlaceholder('Masukkan kata sandi');
+
+		this.rememberMeCheckbox = page.getByText('Ingat saya');
 
 		this.SignIn = page.getByRole('button', {
 			name: 'Sign In',
 		});
+
+		this.okButton = page.getByRole('button', { name: 'OK' });
 	}
 
 	async goto() {
@@ -34,6 +40,10 @@ export class Login {
 
 		await this.passwordField.fill(password);
 
+		await this.rememberMeCheckbox.click();
+
 		await this.SignIn.click();
+
+		await this.okButton.click();
 	}
 }

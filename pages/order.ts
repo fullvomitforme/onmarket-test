@@ -1,10 +1,10 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export class Order {
 	readonly page: Page;
 	readonly productCard: Locator;
 	readonly shipmentCity: Locator;
-	readonly shipmentPrice: Locator;
+	readonly shipmentPrice: Locator | undefined;
 	readonly minQty: Locator;
 	readonly addQty: Locator;
 	readonly beliSekarangButton: Locator;
@@ -20,6 +20,7 @@ export class Order {
 	readonly pilihMetode: Locator;
 	readonly buatPesananButton: Locator;
 	readonly shipmentCityInput: Locator;
+	readonly chooseService: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
@@ -31,8 +32,6 @@ export class Order {
 		this.shipmentCity = page.getByText('arrow_drop_down').nth(0);
 
 		this.shipmentCityInput = page.getByPlaceholder('Ketik Kota atau Kecamatan');
-
-		this.shipmentPrice = page.getByText('arrow_drop_down').nth(1);
 
 		this.addQty = page.locator('#container path').nth(1);
 
@@ -64,14 +63,16 @@ export class Order {
 
 		this.pesanUntukPenjual = page.locator('#mat-input-1');
 
-		this.pilihServiceButton = page
-			.getByRole('button', { name: 'Pilih Service' })
-			.first();
-
 		this.pilihMetode = page.locator('select');
 
 		this.buatPesananButton = page.getByRole('button', {
 			name: 'Buat Pesanan',
+		});
+
+		this.chooseService = page.locator('p').filter({ hasText: 'Reguler' });
+
+		this.pilihServiceButton = page.getByRole('button', {
+			name: 'Pilih Service',
 		});
 	}
 
@@ -82,7 +83,18 @@ export class Order {
 	}
 
 	async chooseProduct(productName: string) {
-		await this.page.getByText(productName, { exact: true }).click();
+		await this.page
+			.getByRole('link', {
+				name: productName,
+				exact: true,
+			})
+			.click();
+
+		await expect(this.beliSekarangButton).toBeVisible();
+
+		await this.beliSekarangButton.click();
+
+		await expect(this.page).toHaveURL(/https:\/\/test\.onmarket\.id\/checkout/);
 	}
 
 	async chooseShipmentCity(city: string) {

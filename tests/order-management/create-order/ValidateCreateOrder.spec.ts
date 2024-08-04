@@ -1,15 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { Order } from '../../../pages/order';
 import { Login } from '../../../pages/login';
+import { Product } from '../../../pages/product';
 
-test.describe('[ONMARKET] Regression Test - Login user baru', () => {
+test.describe('[ONMARKET] Regression Test - Create New Order', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('https://test.onmarket.id/');
-	});
-
-	test('Verify user can [Sign In] with [Valid Data Value] [username, password] successfully', async ({
-		page,
-	}) => {
 		const LoginPage = new Login(page);
+
+		await page.goto('https://test.onmarket.id/');
 
 		const username = 'tazkiyatest';
 		const password = 'ucanseemypass77';
@@ -39,13 +37,20 @@ test.describe('[ONMARKET] Regression Test - Login user baru', () => {
 		await expect(page).toHaveURL(
 			'https://test.onmarket.id/user/profile/detail-profile',
 		);
+	});
 
-		await profilButton.click();
+	test('Verify user can [Checkout] after [Choose Product] successfully', async ({
+		page,
+	}) => {
+		const ProductPage = new Product(page);
+		const OrderPage = new Order(page);
 
-		const logoutButton = page.getByRole('menuitem', { name: 'logout Logout' });
+		await ProductPage.goto();
 
-		await expect(logoutButton).toBeVisible();
-
-		await logoutButton.click();
+		// Choose product
+		await ProductPage.chooseProduct(
+			// The product name is dynamic, so we need to find a way to get the product name from the page
+			'product image asdasdas Rp 12 KOTA JAKARTA TIMUR',
+		);
 	});
 });
