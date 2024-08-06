@@ -1,5 +1,12 @@
 ![notion_cover](/assets/notion_cover.jpg)
 
+   ___   _   _  __  __     _     ____   _  __ _____  _____ 
+  / _ \ | \ | ||  \/  |   / \   |  _ \ | |/ /| ____||_   _|
+ | | | ||  \| || |\/| |  / _ \  | |_) || ' / |  _|    | |  
+ | |_| || |\  || |  | | / ___ \ |  _ < | . \ | |___   | |  
+  \___/ |_| \_||_|  |_|/_/   \_\|_| \_\|_|\_\|_____|  |_|  
+                                                           
+
 # Web Test Automation - ON MARKET
 
 [![Playwright Tests](https://github.com/charlyautomatiza/starter-playwright/actions/workflows/playwright.yml/badge.svg)](https://github.com/charlyautomatiza/starter-playwright/actions/workflows/playwright.yml)

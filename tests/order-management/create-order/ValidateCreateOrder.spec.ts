@@ -42,15 +42,20 @@ test.describe('[ONMARKET] Regression Test - Create New Order', () => {
 	test('Verify user can [Checkout] after [Choose Product] successfully', async ({
 		page,
 	}) => {
-		const ProductPage = new Product(page);
-		const OrderPage = new Order(page);
 
-		await ProductPage.goto();
+		const storeName = 'KINDER%20GARDEN%20SEDAYU%20CITY';
+
+		const ProductPage = new Product(page);
+
+		await ProductPage.goto(storeName);
 
 		// Choose product
 		await ProductPage.chooseProduct(
 			// The product name is dynamic, so we need to find a way to get the product name from the page
 			'product image asdasdas Rp 12 KOTA JAKARTA TIMUR',
 		);
+
+		// Click [Checkout] button
+		await ProductPage.checkout('Automation Testing Notes');
 	});
 });
