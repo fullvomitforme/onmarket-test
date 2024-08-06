@@ -62,8 +62,5 @@ export class Product {
 		// open opsi pengirim
 		await expect(this.opsiPengirim).toBeVisible();
 		await this.opsiPengirim.click();
-
-		// Choose opsi pengirim
-		const serviceCard =
 	}
 }
